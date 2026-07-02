@@ -1,0 +1,97 @@
+{
+  "baseline": {
+    "NDCG@10": 0.9975248487566445,
+    "NDCG@50": 0.9989692459753347,
+    "MAP": 0.9888888888888888,
+    "P@10": 1.0,
+    "composite": 0.996786531504256
+  },
+  "lambdamart": {
+    "NDCG@10": 1.0,
+    "NDCG@50": 1.0,
+    "MAP": 0.9984993380055517,
+    "P@10": 1.0,
+    "composite": 0.9997749007008329
+  },
+  "winner": "lambdamart",
+  "feature_importance_lambdamart": {
+    "profile_years_of_experience": 1283,
+    "feat_semantic_similarity": 739,
+    "claimed_high_prof_skill_count": 724,
+    "github_score_clean": 555,
+    "feat_unverified_claim_ratio": 432,
+    "feat_behavioral_reliability": 420,
+    "feat_avg_tenure_months": 386,
+    "feat_recent_tenure_months": 308,
+    "must_have_retrieval_evidence_strong": 295,
+    "feat_seniority_slope": 235,
+    "verified_skill_count": 231,
+    "feat_product_company_ratio": 224,
+    "is_technical_title": 212,
+    "soft_neg_framework_tutorial_ratio": 203,
+    "must_have_retrieval_evidence": 189,
+    "verified_ml_relevant_skill_count": 183,
+    "feat_location_match": 96,
+    "best_institution_tier_score": 73,
+    "feat_notice_period_score": 49,
+    "sig_has_github": 20,
+    "soft_neg_title_chasing_score": 14
+  },
+  "feature_importance_baseline": {
+    "profile_years_of_experience": 1523,
+    "feat_semantic_similarity": 1399,
+    "github_score_clean": 1273,
+    "feat_behavioral_reliability": 1256,
+    "claimed_high_prof_skill_count": 1198,
+    "feat_avg_tenure_months": 1105,
+    "feat_recent_tenure_months": 790,
+    "feat_seniority_slope": 782,
+    "soft_neg_framework_tutorial_ratio": 748,
+    "is_technical_title": 711,
+    "feat_unverified_claim_ratio": 656,
+    "verified_ml_relevant_skill_count": 652,
+    "feat_product_company_ratio": 612,
+    "verified_skill_count": 378,
+    "feat_location_match": 298,
+    "feat_notice_period_score": 283,
+    "best_institution_tier_score": 211,
+    "must_have_retrieval_evidence": 194,
+    "must_have_retrieval_evidence_strong": 85,
+    "soft_neg_title_chasing_score": 48,
+    "sig_has_github": 37
+  },
+  "model_features_used": [
+    "feat_seniority_slope",
+    "feat_product_company_ratio",
+    "feat_avg_tenure_months",
+    "feat_recent_tenure_months",
+    "must_have_retrieval_evidence",
+    "must_have_retrieval_evidence_strong",
+    "feat_unverified_claim_ratio",
+    "claimed_high_prof_skill_count",
+    "verified_skill_count",
+    "verified_ml_relevant_skill_count",
+    "is_technical_title",
+    "feat_behavioral_reliability",
+    "feat_location_match",
+    "feat_notice_period_score",
+    "best_institution_tier_score",
+    "sig_has_github",
+    "github_score_clean",
+    "soft_neg_title_chasing_score",
+    "soft_neg_framework_tutorial_ratio",
+    "feat_semantic_similarity",
+    "profile_years_of_experience"
+  ],
+  "note": "No features excluded from the model. must_have_retrieval_evidence, must_have_retrieval_evidence_strong, and other JD-grounded features are included directly in training -- this is a single-JD ranking task with no unseen future query to generalize to, so a hand-built feature strongly predictive of a hand-built, JD-grounded label is a legitimate training signal, not leakage. Hard disqualifier gates (NB-02/NB-05) are still applied separately and deterministically in rank.py before the learned model score is used -- gate first, then rank the gated population.",
+  "regression_check": {
+    "CAND_0006567": {
+      "tier": 3,
+      "predicted_score": 2.55629802703176
+    },
+    "CAND_0094759": {
+      "tier": 4,
+      "predicted_score": 12.086868397750221
+    }
+  }
+}

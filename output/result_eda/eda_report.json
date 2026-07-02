@@ -1,0 +1,54 @@
+{
+  "total_candidates": 100000,
+  "unique_candidate_ids": 100000,
+  "years_of_experience": {
+    "mean": 7.166318999999999,
+    "median": 6.8
+  },
+  "country_distribution": {
+    "India": 75113,
+    "USA": 9978,
+    "Australia": 2579,
+    "Canada": 2506,
+    "UK": 2472,
+    "Germany": 2469,
+    "Singapore": 2453,
+    "UAE": 2430
+  },
+  "top_industries": {
+    "IT Services": 29881,
+    "Software": 22417,
+    "Manufacturing": 22305,
+    "Conglomerate": 7571,
+    "Paper Products": 7467,
+    "Fintech": 2808,
+    "Food Delivery": 2514,
+    "E-commerce": 1529,
+    "Consulting": 1274,
+    "EdTech": 610
+  },
+  "sentinel_rates": {
+    "no_github_pct": 64.637,
+    "no_offer_history_pct": 59.553999999999995
+  },
+  "consulting_only_career_count": 7034,
+  "keyword_stuffing_trap_candidates": 560,
+  "honeypot_candidates_detected": {
+    "expert_zero_duration": 21,
+    "yoe_mismatch": 48,
+    "total_flagged": 69,
+    "spec_expected_ballpark": 80
+  },
+  "institution_tier_distribution": {
+    "tier_3": 53220,
+    "tier_4": 51885,
+    "tier_2": 27821,
+    "tier_1": 6852
+  },
+  "notes": [
+    "notice_period_days is quantized (30/60/90/120/150), treat as ordinal not continuous",
+    "skill_assessment_scores kept as nested dict per candidate, NOT flattened wide (was 56 sparse columns)",
+    "honeypot detector v1 uses only 2 of possible checks (no company founding-date data available)",
+    "median verified_skill_count across dataset is 0 -- has_any_verification is itself a strong signal"
+  ]
+}
