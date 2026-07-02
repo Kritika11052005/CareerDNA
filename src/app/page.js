@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { 
-  Search, Filter, Cpu, Sliders, X, Briefcase, MapPin, 
-  Calendar, GraduationCap, Award, Terminal, CheckCircle2, 
-  AlertTriangle, ChevronRight, TrendingUp, UserCheck, 
+import {
+  Search, Filter, Cpu, Sliders, X, Briefcase, MapPin,
+  Calendar, GraduationCap, Award, Terminal, CheckCircle2,
+  AlertTriangle, ChevronRight, TrendingUp, UserCheck,
   ShieldAlert, Globe, Phone, Mail, Link2, Users, Check,
   Zap, FileText, RefreshCw, BarChart2
 } from 'lucide-react';
@@ -28,7 +28,7 @@ export default function CareerDnaApp() {
   const [isEditingJd, setIsEditingJd] = useState(false);
   const [jdText, setJdText] = useState(DEFAULT_JD);
   const [isCalculating, setIsCalculating] = useState(false);
-  
+
   // Custom Weights for dynamic ranking
   const [weights, setWeights] = useState({
     semantic: 35,
@@ -47,6 +47,7 @@ export default function CareerDnaApp() {
 
   // Simulate active AI reranking when JD or weights change
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsCalculating(true);
     const timer = setTimeout(() => {
       setIsCalculating(false);
@@ -57,7 +58,7 @@ export default function CareerDnaApp() {
   // Compute composite score & filter candidates
   const processedCandidates = useMemo(() => {
     const totalWeight = weights.semantic + weights.retrieval + weights.seniority + weights.reliability + weights.noticePeriod;
-    
+
     // Process each candidate and compute a custom score based on weights
     const list = rawCandidates.map(cand => {
       // 1. Semantic Score (0-100)
@@ -68,7 +69,7 @@ export default function CareerDnaApp() {
       } else if (cand.relevance_tier) {
         semScore = cand.relevance_tier * 22;
       }
-      
+
       // 2. Retrieval Score (0-100)
       let retScore = 0;
       const reasoningLower = (cand.reasoning || '').toLowerCase();
@@ -114,13 +115,13 @@ export default function CareerDnaApp() {
         (reliabilityScore * weights.reliability) +
         (npScore * weights.noticePeriod)
       );
-      
+
       const compositeScore = totalWeight > 0 ? Math.round(weightedSum / totalWeight) : 0;
 
       // Check location criteria
       const location = (cand.profile?.location || '').toLowerCase();
       const isPrefLocation = location.includes('pune') || location.includes('noida') || location.includes('delhi') || location.includes('gurgaon');
-      
+
       return {
         ...cand,
         compositeScore,
@@ -160,7 +161,7 @@ export default function CareerDnaApp() {
         const title = (cand.profile?.current_title || '').toLowerCase();
         const company = (cand.profile?.current_company || '').toLowerCase();
         const skills = (cand.skills || []).map(s => s.name.toLowerCase()).join(' ');
-        
+
         return name.includes(query) || title.includes(query) || company.includes(query) || skills.includes(query);
       }
 
@@ -176,13 +177,13 @@ export default function CareerDnaApp() {
     const tier2Count = rawCandidates.filter(c => c.relevance_tier === 2).length;
     const tier1Count = rawCandidates.filter(c => c.relevance_tier === 1).length;
     const tier0Count = rawCandidates.filter(c => c.relevance_tier === 0).length;
-    
+
     return { totalPool, tier4Count, tier3Count, tier2Count, tier1Count, tier0Count };
   }, []);
 
   return (
     <div className="min-h-screen p-4 md-p-8 flex flex-col gap-6 max-w-7xl mx-auto relative">
-      
+
       {/* Background Glows */}
       <div className="radial-glow" style={{ top: '10%', left: '5%' }}></div>
       <div className="radial-glow" style={{ bottom: '20%', right: '5%', background: 'radial-gradient(circle, rgba(6, 182, 212, 0.08) 0%, transparent 70%)' }}></div>
@@ -206,7 +207,7 @@ export default function CareerDnaApp() {
             <span className="font-mono text-xs text-emerald-400 uppercase tracking-widest">AI RECRUITER BRAIN v2.4 // ONLINE</span>
           </div>
           <h1 className="font-display text-3xl font-extrabold tracking-tight text-white flex items-center gap-2">
-            CAREER<span className="text-cyan-400 glow-text-cyan">DNA</span> 
+            CAREER<span className="text-cyan-400 glow-text-cyan">DNA</span>
             <span className="text-xs bg-gradient-to-r from-cyan-500 to-fuchsia-500 px-2 py-0-5 rounded font-mono text-black font-black uppercase">PRO</span>
           </h1>
           <p className="text-gray-400 text-sm mt-1">Predictive Candidate Ranking Engine for Founding Teams</p>
@@ -235,26 +236,26 @@ export default function CareerDnaApp() {
 
       {/* Main Panel Layout */}
       <div className="grid grid-cols-1 lg-grid-cols-12 gap-6 items-start">
-        
+
         {/* Left Side: JD Analyzer & Weights Console */}
         <div className="lg-col-span-4 flex flex-col gap-6">
-          
+
           {/* Job Description Panel */}
           <div className="glass-panel p-5 border-slate-800">
             <div className="flex items-center justify-between mb-3">
               <h2 className="font-display text-sm font-bold tracking-wider uppercase text-cyan-400 flex items-center gap-2">
                 <FileText className="w-4 h-4" /> Active Job Description
               </h2>
-              <button 
+              <button
                 onClick={() => setIsEditingJd(!isEditingJd)}
                 className="font-mono text-xs text-gray-400 hover-text-white border border-white-10 px-2 py-0-5 rounded transition"
               >
                 {isEditingJd ? 'SAVE' : 'EDIT'}
               </button>
             </div>
-            
+
             {isEditingJd ? (
-              <textarea 
+              <textarea
                 value={jdText}
                 onChange={(e) => setJdText(e.target.value)}
                 className="w-full h-72 bg-slate-950-80 border border-slate-800 rounded p-3 text-xs font-mono text-slate-300 focus-outline-none focus-border-cyan-500"
@@ -290,7 +291,7 @@ export default function CareerDnaApp() {
               <h2 className="font-display text-sm font-bold tracking-wider uppercase text-fuchsia-400 flex items-center gap-2">
                 <Sliders className="w-4 h-4" /> AI Recruiter Weights
               </h2>
-              <button 
+              <button
                 onClick={() => setWeights({ semantic: 35, retrieval: 35, seniority: 10, reliability: 10, noticePeriod: 10 })}
                 className="font-mono text-10px text-gray-500 hover-text-white flex items-center gap-1 transition"
                 data-tooltip="Reset to Model Default"
@@ -306,10 +307,10 @@ export default function CareerDnaApp() {
                   <span className="text-gray-300">Semantic Fit Score</span>
                   <span className="text-cyan-400 font-bold">{weights.semantic}%</span>
                 </div>
-                <input 
-                  type="range" 
-                  min="0" 
-                  max="100" 
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
                   value={weights.semantic}
                   onChange={(e) => handleWeightChange('semantic', e.target.value)}
                   className="w-full"
@@ -323,10 +324,10 @@ export default function CareerDnaApp() {
                   <span className="text-gray-300">Production Retrieval</span>
                   <span className="text-cyan-400 font-bold">{weights.retrieval}%</span>
                 </div>
-                <input 
-                  type="range" 
-                  min="0" 
-                  max="100" 
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
                   value={weights.retrieval}
                   onChange={(e) => handleWeightChange('retrieval', e.target.value)}
                   className="w-full"
@@ -340,10 +341,10 @@ export default function CareerDnaApp() {
                   <span className="text-gray-300">Seniority Range Fit</span>
                   <span className="text-cyan-400 font-bold">{weights.seniority}%</span>
                 </div>
-                <input 
-                  type="range" 
-                  min="0" 
-                  max="100" 
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
                   value={weights.seniority}
                   onChange={(e) => handleWeightChange('seniority', e.target.value)}
                   className="w-full"
@@ -357,10 +358,10 @@ export default function CareerDnaApp() {
                   <span className="text-gray-300">Response & Complete Rate</span>
                   <span className="text-cyan-400 font-bold">{weights.reliability}%</span>
                 </div>
-                <input 
-                  type="range" 
-                  min="0" 
-                  max="100" 
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
                   value={weights.reliability}
                   onChange={(e) => handleWeightChange('reliability', e.target.value)}
                   className="w-full"
@@ -374,10 +375,10 @@ export default function CareerDnaApp() {
                   <span className="text-gray-300">Notice Period Fit</span>
                   <span className="text-cyan-400 font-bold">{weights.noticePeriod}%</span>
                 </div>
-                <input 
-                  type="range" 
-                  min="0" 
-                  max="100" 
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
                   value={weights.noticePeriod}
                   onChange={(e) => handleWeightChange('noticePeriod', e.target.value)}
                   className="w-full"
@@ -390,13 +391,13 @@ export default function CareerDnaApp() {
 
         {/* Right Side: Candidates Dashboard */}
         <div className="lg-col-span-8 flex flex-col gap-4">
-          
+
           {/* Controls Bar */}
           <div className="glass-panel p-4 flex flex-col md-flex-row md-items-center justify-between gap-4 border-slate-800">
             {/* Search Input */}
             <div className="relative flex-1">
               <Search className="absolute left-3 top-2-5 w-4 h-4 text-gray-400" />
-              <input 
+              <input
                 type="text"
                 placeholder="Search candidates by name, company, title, or skills..."
                 value={searchQuery}
@@ -404,15 +405,15 @@ export default function CareerDnaApp() {
                 className="w-full bg-slate-950-80 border border-slate-800 rounded-full pl-9 pr-4 py-2 text-xs focus-outline-none focus-border-cyan-500 text-gray-200"
               />
             </div>
-            
+
             {/* Filtering Controls */}
             <div className="flex flex-wrap items-center gap-3">
-              
+
               {/* Location Selector */}
               <div className="flex items-center gap-1-5">
                 <span className="font-mono text-10px text-gray-500 uppercase">Hubs:</span>
-                <select 
-                  value={locationFilter} 
+                <select
+                  value={locationFilter}
                   onChange={(e) => setLocationFilter(e.target.value)}
                   className="bg-slate-950 border border-slate-800 rounded px-2-5 py-1 text-11px text-gray-300 focus-outline-none focus-border-cyan-500"
                 >
@@ -425,8 +426,8 @@ export default function CareerDnaApp() {
               {/* Relevance Tier Filter */}
               <div className="flex items-center gap-1-5">
                 <span className="font-mono text-10px text-gray-500 uppercase">Tier:</span>
-                <select 
-                  value={selectedTier === null ? 'all' : selectedTier} 
+                <select
+                  value={selectedTier === null ? 'all' : selectedTier}
                   onChange={(e) => setSelectedTier(e.target.value === 'all' ? null : parseInt(e.target.value))}
                   className="bg-slate-950 border border-slate-800 rounded px-2-5 py-1 text-11px text-gray-300 focus-outline-none focus-border-cyan-500"
                 >
@@ -440,8 +441,8 @@ export default function CareerDnaApp() {
 
               {/* Include Disqualified Switch */}
               <label className="flex items-center gap-1-5 cursor-pointer select-none">
-                <input 
-                  type="checkbox" 
+                <input
+                  type="checkbox"
                   checked={includeDisqualified}
                   onChange={(e) => setIncludeDisqualified(e.target.checked)}
                   className="rounded border-slate-800 bg-slate-950 text-cyan-500 focus-ring-0 focus-ring-offset-0 w-3-5 h-3-5"
@@ -473,7 +474,7 @@ export default function CareerDnaApp() {
               processedCandidates.map((cand, idx) => {
                 const profile = cand.profile || {};
                 const signals = cand.redrob_signals || {};
-                
+
                 // Color mapping for relevance tiers
                 let tierLabel = `TIER ${cand.relevance_tier}`;
                 let tierClass = "border-cyan-500-20 text-cyan-400 bg-cyan-950-20";
@@ -492,13 +493,13 @@ export default function CareerDnaApp() {
                 }
 
                 return (
-                  <div 
+                  <div
                     key={cand.candidate_id}
                     onClick={() => setSelectedCandidate(cand)}
                     className="glass-panel glass-panel-hoverable p-4 flex flex-col md-flex-row justify-between gap-4 cursor-pointer animate-fade-in border-slate-900 shrink-0"
                     style={{ animationDelay: `${Math.min(idx * 30, 400)}ms` }}
                   >
-                    
+
                     {/* Left: Rank & General Info */}
                     <div className="flex gap-4 items-start flex-1">
                       {/* Rank Indicator */}
@@ -541,13 +542,13 @@ export default function CareerDnaApp() {
 
                     {/* Right: Scores & Signals */}
                     <div className="flex md-flex-col justify-between md-justify-center md-items-end gap-3 border-t md-border-t-0 border-white-5 pt-3 md-pt-0 min-w-140">
-                      
+
                       {/* Match Score */}
                       <div className="text-left md-text-right">
                         <div className="font-mono text-9px text-gray-500 uppercase tracking-widest">Composite Match</div>
                         <div className="flex items-center gap-2 mt-0-5">
                           <div className="w-20 bg-slate-950 h-2 rounded overflow-hidden border border-white-5">
-                            <div 
+                            <div
                               className={`h-full transition-all duration-500 ${cand.relevance_tier === 0 ? 'bg-red-500' : 'bg-gradient-to-r from-cyan-500 to-fuchsia-500'}`}
                               style={{ width: `${cand.compositeScore}%` }}
                             ></div>
@@ -585,14 +586,14 @@ export default function CareerDnaApp() {
       {/* OVERLAY CONSOLE: CANDIDATE DETAIL DRAWER */}
       {selectedCandidate && (
         <div className="fixed inset-0 bg-slate-950-80 backdrop-blur-md z-50 flex items-center justify-center p-4">
-          <div 
+          <div
             className="glass-panel w-full max-w-4xl max-h-90vh overflow-y-auto flex flex-col border border-white-15 shadow-modal-deep animate-fade-in"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header section with scanning animation */}
             <div className="relative border-b border-white-10 p-6 bg-slate-900-60 flex flex-col md-flex-row md-items-center justify-between gap-4">
               <div className="scanner-line"></div>
-              
+
               <div className="flex gap-4 items-start">
                 <div className="flex flex-col items-center justify-center w-14 h-14 rounded-xl bg-slate-950 border border-slate-800 font-mono text-cyan-400 text-xl font-black shadow-rank-glow">
                   {selectedCandidate.relevance_tier === 0 ? '⚠️' : `#${selectedCandidate.dynamicRank || '—'}`}
@@ -600,14 +601,13 @@ export default function CareerDnaApp() {
                 <div>
                   <div className="flex items-center gap-2 flex-wrap">
                     <h3 className="font-display font-extrabold text-lg text-white">{selectedCandidate.profile?.name || selectedCandidate.candidate_id}</h3>
-                    <span className={`text-[9px] font-mono border px-2 py-0-5 rounded-full ${
-                      selectedCandidate.relevance_tier === 4 ? 'border-emerald-500/30 text-emerald-400 bg-emerald-950/30' :
-                      selectedCandidate.relevance_tier === 3 ? 'border-fuchsia-500-30 text-fuchsia-400 bg-fuchsia-950/30' :
-                      selectedCandidate.relevance_tier === 0 ? 'border-red-500-30 text-red-400 bg-red-950-30' : 'border-slate-800 text-slate-400'
-                    }`}>
+                    <span className={`text-[9px] font-mono border px-2 py-0-5 rounded-full ${selectedCandidate.relevance_tier === 4 ? 'border-emerald-500/30 text-emerald-400 bg-emerald-950/30' :
+                        selectedCandidate.relevance_tier === 3 ? 'border-fuchsia-500-30 text-fuchsia-400 bg-fuchsia-950/30' :
+                          selectedCandidate.relevance_tier === 0 ? 'border-red-500-30 text-red-400 bg-red-950-30' : 'border-slate-800 text-slate-400'
+                      }`}>
                       {selectedCandidate.relevance_tier === 4 ? 'TIER 4 // IDEAL MATCH' :
-                       selectedCandidate.relevance_tier === 3 ? 'TIER 3 // STRONG MATCH' :
-                       selectedCandidate.relevance_tier === 0 ? 'TIER 0 // DISQUALIFIED' : 'TIER ' + selectedCandidate.relevance_tier}
+                        selectedCandidate.relevance_tier === 3 ? 'TIER 3 // STRONG MATCH' :
+                          selectedCandidate.relevance_tier === 0 ? 'TIER 0 // DISQUALIFIED' : 'TIER ' + selectedCandidate.relevance_tier}
                     </span>
                   </div>
                   <p className="text-slate-300 text-sm mt-1">{selectedCandidate.profile?.current_title} at <span className="font-semibold">{selectedCandidate.profile?.current_company}</span></p>
@@ -626,7 +626,7 @@ export default function CareerDnaApp() {
                     {selectedCandidate.compositeScore}%
                   </div>
                 </div>
-                <button 
+                <button
                   onClick={() => setSelectedCandidate(null)}
                   className="bg-slate-950 hover-bg-slate-900 border border-white-10 p-2-5 rounded-full text-slate-400 hover-text-white transition"
                 >
@@ -637,17 +637,17 @@ export default function CareerDnaApp() {
 
             {/* Content Body Grid */}
             <div className="p-6 grid grid-cols-1 md-grid-cols-12 gap-6 bg-slate-950-30">
-              
+
               {/* Left Side: AI Reasoning Console, Skills analysis, Education */}
               <div className="md-col-span-8 flex flex-col gap-6">
-                
+
                 {/* AI Recruiter Brain Console */}
                 <div className="glass-panel p-5 border-fuchsia-500-20 bg-fuchsia-950-5">
                   <div className="flex items-center gap-2 text-fuchsia-400 mb-3">
                     <Terminal className="w-4 h-4" />
                     <h4 className="font-display text-xs font-bold uppercase tracking-wider">AI Recruiter Brain // Justification Log</h4>
                   </div>
-                  <div className="bg-slate-950-95 border border-slate-800 rounded p-4 font-mono text-xs text-gray-300 leading-relaxed shadow-inner relative" style={{minHeight:"80px"}}>
+                  <div className="bg-slate-950-95 border border-slate-800 rounded p-4 font-mono text-xs text-gray-300 leading-relaxed shadow-inner relative" style={{ minHeight: "80px" }}>
                     <div className="absolute top-2 right-2 flex items-center gap-1 text-8px text-fuchsia-500 font-bold bg-fuchsia-950-50 border border-fuchsia-800 px-1-5 py-0-25 rounded">
                       <Zap className="w-2-5 h-2-5 animate-bounce" /> LTR MODEL v2
                     </div>
@@ -670,14 +670,14 @@ export default function CareerDnaApp() {
                   <h4 className="font-display text-xs font-bold uppercase tracking-wider text-cyan-400 mb-4 flex items-center gap-2">
                     <BarChart2 className="w-4 h-4" /> Technical Skills & Endorsements Matrix
                   </h4>
-                  
+
                   <div className="grid grid-cols-2 sm-grid-cols-3 gap-3">
                     {(selectedCandidate.skills || []).map((skill, sIdx) => {
-                      const isVerified = (selectedCandidate.redrob_signals?.skill_assessment_scores?.[skill.name] || 
-                                          skill.endorsements > 12);
+                      const isVerified = (selectedCandidate.redrob_signals?.skill_assessment_scores?.[skill.name] ||
+                        skill.endorsements > 12);
                       return (
-                        <div 
-                          key={sIdx} 
+                        <div
+                          key={sIdx}
                           className="bg-slate-900-60 border border-slate-900-80 rounded p-2-5 flex flex-col justify-between gap-1-5 relative overflow-hidden"
                         >
                           {/* Verified Check icon */}
@@ -702,13 +702,13 @@ export default function CareerDnaApp() {
                   <h4 className="font-display text-xs font-bold uppercase tracking-wider text-white mb-4 flex items-center gap-2">
                     <Briefcase className="w-4 h-4 text-gray-400" /> Professional Career History
                   </h4>
-                  
+
                   <div className="flex flex-col gap-4 pl-3 relative border-l border-slate-800">
                     {(selectedCandidate.career_history || []).map((job, jIdx) => (
                       <div key={jIdx} className="relative group">
                         {/* Timeline marker node */}
                         <div className="absolute left-minus-19 top-1-5 w-2-5 h-2-5 rounded-full border border-slate-800 bg-slate-950 group-hover-bg-cyan-400 group-hover-border-cyan-400 transition-all duration-300"></div>
-                        
+
                         <div className="flex flex-col gap-1">
                           <div className="flex flex-wrap items-baseline gap-2">
                             <span className="text-xs font-extrabold text-gray-200">{job.title}</span>
@@ -727,13 +727,13 @@ export default function CareerDnaApp() {
 
               {/* Right Side: Redrob Signals Console (Github, Response Rate, Expected Salary) */}
               <div className="md-col-span-4 flex flex-col gap-6">
-                
+
                 {/* Behavioral & Verification Flags */}
                 <div className="glass-panel p-5 border-slate-800">
                   <h4 className="font-display text-xs font-bold uppercase tracking-wider text-emerald-400 mb-4 flex items-center gap-2">
                     <UserCheck className="w-4 h-4" /> Verification Flags
                   </h4>
-                  
+
                   <div className="flex flex-col gap-2-5">
                     {/* LinkedInConnected */}
                     <div className="flex items-center justify-between text-xs font-mono">
@@ -760,7 +760,7 @@ export default function CareerDnaApp() {
                   <h4 className="font-display text-xs font-bold uppercase tracking-wider text-white mb-4 flex items-center gap-2">
                     <TrendingUp className="w-4 h-4 text-cyan-400" /> Recruitment Signals
                   </h4>
-                  
+
                   <div className="flex flex-col gap-4 font-mono">
                     {/* Response Rate */}
                     <div className="flex flex-col gap-1-5">
@@ -769,8 +769,8 @@ export default function CareerDnaApp() {
                         <span className="text-white font-bold">{selectedCandidate.redrob_signals?.recruiter_response_rate || 88}%</span>
                       </div>
                       <div className="w-full bg-slate-900 h-2 rounded overflow-hidden">
-                        <div 
-                          className="h-full bg-cyan-400" 
+                        <div
+                          className="h-full bg-cyan-400"
                           style={{ width: `${selectedCandidate.redrob_signals?.recruiter_response_rate || 88}%` }}
                         ></div>
                       </div>
@@ -784,8 +784,8 @@ export default function CareerDnaApp() {
                         <span className="text-white font-bold">{selectedCandidate.redrob_signals?.profile_completeness_score || 90}%</span>
                       </div>
                       <div className="w-full bg-slate-900 h-2 rounded overflow-hidden">
-                        <div 
-                          className="h-full bg-indigo-500" 
+                        <div
+                          className="h-full bg-indigo-500"
                           style={{ width: `${selectedCandidate.redrob_signals?.profile_completeness_score || 90}%` }}
                         ></div>
                       </div>
@@ -808,10 +808,9 @@ export default function CareerDnaApp() {
                     {/* Notice Period */}
                     <div className="flex justify-between text-xs border-t border-slate-900 pt-3">
                       <span className="text-slate-400">Notice Period</span>
-                      <span className={`font-bold ${
-                        (selectedCandidate.redrob_signals?.notice_period_days || 0) <= 30 ? 'text-emerald-400' :
-                        (selectedCandidate.redrob_signals?.notice_period_days || 0) <= 60 ? 'text-slate-300' : 'text-orange-400'
-                      }`}>
+                      <span className={`font-bold ${(selectedCandidate.redrob_signals?.notice_period_days || 0) <= 30 ? 'text-emerald-400' :
+                          (selectedCandidate.redrob_signals?.notice_period_days || 0) <= 60 ? 'text-slate-300' : 'text-orange-400'
+                        }`}>
                         {selectedCandidate.redrob_signals?.notice_period_days || 45} Days
                       </span>
                     </div>
@@ -824,13 +823,13 @@ export default function CareerDnaApp() {
                     <h4 className="font-display text-xs font-bold uppercase tracking-wider text-white mb-4 flex items-center gap-2">
                       <Globe className="w-4 h-4 text-indigo-400" /> Open Source Activity
                     </h4>
-                    
+
                     <div className="flex flex-col gap-3 font-mono">
                       <div className="flex justify-between text-xs">
                         <span className="text-slate-400">GitHub Activity Index</span>
                         <span className="text-indigo-400 font-bold">{selectedCandidate.redrob_signals?.github_activity_score || 65} / 100</span>
                       </div>
-                      
+
                       {/* Fake code block contribution grid */}
                       <div className="grid grid-cols-7 gap-1 bg-slate-950 p-2-5 rounded border border-slate-900">
                         {Array.from({ length: 28 }).map((_, gIdx) => {
@@ -855,7 +854,7 @@ export default function CareerDnaApp() {
                   <h4 className="font-display text-xs font-bold uppercase tracking-wider text-white mb-4 flex items-center gap-2">
                     <GraduationCap className="w-4 h-4 text-purple-400" /> Academic Pedigree
                   </h4>
-                  
+
                   {(selectedCandidate.education || []).map((edu, eIdx) => (
                     <div key={eIdx} className="flex flex-col gap-1">
                       <div className="text-xs font-bold text-gray-200">{edu.institution}</div>
