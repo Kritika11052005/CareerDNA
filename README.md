@@ -62,7 +62,7 @@ A pretrained LightGBM ranker (`ranker_model_v2.txt`) trained with a `lambdarank`
 
 The CareerDNA Web Console is built in **Next.js** using a **deep cinematic dark theme** with custom vanilla CSS layout components.
 
-https://github.com/Kritika11052005/CareerDNA/assets/demo.mp4
+
 
 ### Key Features
 *   ✨ **Visual Reranking Engine**: Real-time slider inputs adjust the weight of **Semantic Similarity**, **Production Retrieval**, **Seniority**, **Reliability**, and **Notice Period** client-side. The dashboard dynamically updates matching scores and reshuffles profiles on the fly!
